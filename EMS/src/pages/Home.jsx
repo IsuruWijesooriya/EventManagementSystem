@@ -11,6 +11,21 @@ const Home = () => {
       <Link to="/about">
         <button>About Us</button>
       </Link>
+
+      {/* Link to Admin Login page */}
+      <Link to="/admin">
+        <button>Admin Login</button>
+      </Link>
+
+      {/* Link to Add Event page */}
+      <Link to="/addevent">
+        <button>Add Event</button>
+      </Link>
+
+      {/* Link to Manage Event page */}
+      <Link to="/manageevent">
+        <button>Manage Events</button>
+      </Link>
     </div>
   );
 };
