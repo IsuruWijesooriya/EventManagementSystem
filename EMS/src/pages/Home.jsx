@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png'; // Adjust the path to where your logo is stored
+import Modal from '../components/Modal.jsx'; // Correct import for Modal
 
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  // Sample events data
+  const events = [
+    { id: 1, title: "Event 1", details: "Details about Event 1" },
+    { id: 2, title: "Event 2", details: "Details about Event 2" },
+    { id: 3, title: "Event 3", details: "Details about Event 3" },
+    { id: 4, title: "Event 4", details: "Details about Event 4" },
+  ];
+
+  // Open modal function
+  const openModal = (event) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+  };
+
+  // Close modal function
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
+
   return (
     <div style={{ width: '80vw', maxWidth: '1280px', margin: '0 auto', padding: '0 1rem' }}>
       <header className="header">
@@ -11,7 +35,7 @@ const Home = () => {
           <img src={logo} alt="Event Logo" className="logo-img" />
         </div>
         <nav className="nav">
-          <Link to="/about" className="nav-item">About</Link>
+          <Link to="/about" className="nav-item button">About</Link>
         </nav>
       </header>
 
@@ -41,22 +65,12 @@ const Home = () => {
       <section className="events-section">
         <h2>Upcoming Events</h2>
         <div className="events-grid">
-          <div className="event-card">
-            <h3>Event 1</h3>
-            <p>Details about Event 1</p>
-          </div>
-          <div className="event-card">
-            <h3>Event 2</h3>
-            <p>Details about Event 2</p>
-          </div>
-          <div className="event-card">
-            <h3>Event 3</h3>
-            <p>Details about Event 3</p>
-          </div>
-          <div className="event-card">
-            <h3>Event 4</h3>
-            <p>Details about Event 4</p>
-          </div>
+          {events.map((event) => (
+            <div key={event.id} className="event-card" onClick={() => openModal(event)}>
+              <h3>{event.title}</h3>
+              <p>{event.details}</p>
+            </div>
+          ))}
         </div>
 
         <div className="pagination">
@@ -73,6 +87,9 @@ const Home = () => {
         <p>Email: info@example.com</p>
         <p>Phone: 123-456-7890</p>
       </footer>
+
+      {/* Modal Component */}
+      <Modal isOpen={isModalOpen} onClose={closeModal} event={selectedEvent} />
     </div>
   );
 };

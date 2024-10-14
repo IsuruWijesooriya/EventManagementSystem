@@ -50,8 +50,23 @@ body {
 }
 
 .nav-item:hover {
-  color: #fdbb2d;
+  color: #007BFF;
   font-weight: 500;
+}
+
+.nav-item.button {
+  background-color: #007BFF; /* Blue background */
+  color: #ffffff; /* White text color */
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Ensure it behaves like a button */
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.nav-item.button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px);
 }
 
 .filter-section {
@@ -87,7 +102,7 @@ body {
 }
 
 .filter-item select:hover {
-  background-color: #fdbb2d;
+  background-color: #007BFF;
   color: #000;
 }
 
@@ -127,7 +142,7 @@ body {
 }
 
 .page-btn {
-  background-color: #fdbb2d;
+  background-color: #007BFF;
   border: none;
   padding: 0.75rem 1.5rem;
   color: #000;
@@ -137,7 +152,7 @@ body {
 }
 
 .page-btn:hover {
-  background-color: #f09c00;
+  background-color: #007BFF;
   transform: translateY(-5px);
 }
 
@@ -155,5 +170,5 @@ body {
 }
 
 .footer p {
-  color: #fdbb2d;
+  color: #007BFF;
 }
