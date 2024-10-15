@@ -140,11 +140,11 @@ const Home = () => {
         <h2>All Events</h2>
         <div className="events-grid">
   {currentEvents.map((event) => (
-    <div key={event.id} className="event-card" onClick={() => openModal(event)}>
-      <div className="event-card-image">
+    <div key={event.id} className="event-card1" onClick={() => openModal(event)}>
+      <div className="event-card1-image">
         <img src={event.image} alt={event.title} />
       </div>
-      <div className="event-card-content">
+      <div className="event-card1-content">
         <h3>{event.title}</h3>
         <p>{event.details}</p>
       </div>
