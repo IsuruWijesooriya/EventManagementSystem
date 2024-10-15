@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home.jsx';
 import About from './pages/aboutus.jsx';
-import Admin from './pages/adminlogin.jsx';
+import Admin from './pages/AdminLogin.jsx';
 import Addevent from './pages/addevent.jsx';
 import Manageevent from './pages/manageevent.jsx';
 
