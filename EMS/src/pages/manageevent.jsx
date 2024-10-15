@@ -37,6 +37,7 @@ const ManageEvent = () => {
       <nav className="navbar">
         <div>
           <a href="/">Home</a>
+          <a href="/addevent">Add Event</a>
         </div>
         <input
           type="text"
