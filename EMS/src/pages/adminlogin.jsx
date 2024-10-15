@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AdminLogin.css';
+import './components/AdminLogin.css';
 import ManageEvent from './manageevent'; 
 
 const AdminLogin = () => {
