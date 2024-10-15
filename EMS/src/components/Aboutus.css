@@ -1,0 +1,46 @@
+.about-container {
+    display: flex;
+    justify-content: space-between; /* Keeps spacing more flexible */
+    align-items: stretch; /* Ensures tiles stretch to the same height */
+    padding: 20px;
+    flex-wrap: wrap; /* Allows wrapping of content on smaller screens */
+    gap: 20px;
+  }
+  
+  .person-tile {
+    text-align: center;
+    width: 200px;
+    height: 380px; /* Set a fixed height for all tiles */
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #0f0f0f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure content is spaced evenly */
+  }
+  
+  .person-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+  }
+  
+  h3 {
+    margin-top: 10px;
+    font-size: 1.2em;
+  }
+  
+  h4 {
+    color: #b97e10;
+    margin: 5px 0;
+  }
+  
+  p {
+    font-size: 0.9em;
+    color: #e6dfdf;
+  }
+  
