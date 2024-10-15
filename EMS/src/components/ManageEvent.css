@@ -2,62 +2,48 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #2a2a2b; /* Light grey background */
+    background-color: #2a2a2b; /* Dark grey background */
     color: #ffffff;
-  }
-  
-  /* Header Styles */
-  .header {
-    padding: 20px;
-    background-color: #001f3f; /* Navy Blue */
-    color: white;
-    text-align: center;
-    border-bottom: 5px solid #0f3460; /* Lighter blue border */
-  }
-  
-  .header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  /* Navbar Styles */
-  .navbar {
+}
+
+
+/* Navbar Styles */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background-color: #001f3f; /* Navy Blue */
     color: white;
-  }
-  
-  .navbar a {
+}
+
+.navbar a {
     color: white;
     text-decoration: none;
     padding: 10px 20px;
-  }
-  
-  .navbar a:hover {
+}
+
+.navbar a:hover {
     background-color: #0f3460;
     border-radius: 5px;
-  }
-  
-  .navbar input[type="text"] {
+}
+
+.navbar input[type="text"] {
     padding: 10px;
     border-radius: 5px;
     border: none;
-  }
-  
-  /* Event Grid Styles */
-  .event-grid {
+}
+
+/* Event Grid Styles */
+.event-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px; /* Adds space between cards */
     padding: 40px;
-  }
-  
-  .event-card {
+}
+
+.event-card {
     border: 2px solid #0f3460; /* Dark Blue border */
     padding: 20px;
     margin: 15px;
@@ -68,20 +54,20 @@ body {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: white;
-  }
-  
-  .event-card:hover {
+}
+
+.event-card:hover {
     transform: translateY(-5px);
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-  }
-  
-  .event-card h2 {
+}
+
+.event-card h2 {
     font-size: 1.5rem;
-    color: #64e3ee; /* Yellow Text for emphasis */
+    color: #64e3ee; /* Cyan text for emphasis */
     margin-bottom: 20px;
-  }
-  
-  .event-card button {
+}
+
+.event-card button {
     background-color: #0f3460; /* Dark Blue */
     color: white;
     border: none;
@@ -90,50 +76,118 @@ body {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-  }
-  
-  .event-card button:hover {
+}
+
+.event-card button:hover {
     background-color: #16213e; /* Slightly darker blue on hover */
-  }
-  
-  /* Footer Styles */
-  footer {
+}
+
+/* Footer Styles */
+footer {
     padding: 20px;
     background-color: #001f3f; /* Navy Blue footer */
     color: white;
     text-align: center;
     margin-top: 40px;
-  }
-  
-  /* Modal Styles (if applicable) */
-  .modal {
+}
+
+/* Modal Styles */
+.modal {
+    overflow-y: auto;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000; /* Ensure modal is on top */
   }
   
   .modal-content {
-    background: rgb(97, 97, 99);
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
+    background: #333; /* Darker grey background for better contrast */
+    padding: 30px;
+    border-radius: 15px; /* Smooth rounded corners */
+    width: 450px; /* Wider modal for better form presentation */
+    max-width: 90%;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5); /* Soft shadow for elevation */
     text-align: center;
+    color: white; /* White text for contrast */
+  }
+  
+  .modal-content label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    text-align: left;
+    color: #ffffff;
+    font-size: 1rem;
   }
   
   .modal-content input,
-  .modal-content textarea {
+  .modal-content textarea,
+  .modal-content select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Smooth rounded input fields */
+    background-color: #4d4d4f; /* Darker grey for inputs */
+    font-size: 1rem;
+    color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .modal-content input:focus,
+  .modal-content textarea:focus,
+  .modal-content select:focus {
+    border-color: #64e3ee; /* Highlight border color on focus */
+  }
+  
+  .modal-content select {
+    cursor: pointer;
   }
   
   .modal-content button {
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 12px 25px;
+    margin: 15px 10px;
+    background-color: #0f3460; /* Navy blue */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
+  
+  .modal-content button:hover {
+    background-color: #16213e; /* Darker navy blue */
+    transform: translateY(-3px); /* Lift effect on hover */
+  }
+  
+  /* Buttons container for save and cancel */
+  .buttons-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .modal-close:hover {
+    color: #ffcc00; /* Highlight the close button with a yellow color on hover */
+  }
+  

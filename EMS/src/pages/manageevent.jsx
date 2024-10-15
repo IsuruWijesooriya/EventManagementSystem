@@ -5,14 +5,10 @@ import Footer from '../components/Footer';
 
 const ManageEvent = () => {
   const [events, setEvents] = useState([
-    { id: 1, name: 'Event 1', description: 'Description for Event 1' },
-    { id: 2, name: 'Event 2', description: 'Description for Event 2' },
-    { id: 3, name: 'Event 3', description: 'Description for Event 3' },
-    { id: 4, name: 'Event 4', description: 'Description for Event 4' },
-    { id: 5, name: 'Event 5', description: 'Description for Event 5' },
-    { id: 6, name: 'Event 6', description: 'Description for Event 6' },
-    { id: 7, name: 'Event 7', description: 'Description for Event 7' },
-    { id: 8, name: 'Event 8', description: 'Description for Event 8' },
+    { id: 1, name: 'Event 1', description: 'Description for Event 1', category: 'Music', audience: 100, date: '2024-12-01', time: '18:00', venue: 'Hall A' },
+    { id: 2, name: 'Event 2', description: 'Description for Event 2', category: 'Sports', audience: 200, date: '2024-12-05', time: '14:00', venue: 'Stadium' },
+    { id: 3, name: 'Event 3', description: 'Description for Event 3', category: 'Art', audience: 150, date: '2024-12-08', time: '10:00', venue: 'Art Gallery' },
+    // Add more events as needed
   ]);
 
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -41,6 +37,7 @@ const ManageEvent = () => {
       <nav className="navbar">
         <div>
           <a href="/">Home</a>
+          <a href="/addevent">Add Event</a>
         </div>
         <input
           type="text"
@@ -63,6 +60,9 @@ const ManageEvent = () => {
         <div className="modal">
           <div className="modal-content">
             <h2>Edit Event</h2>
+
+            {/* Event Name */}
+            <label>Event Name</label>
             <input
               type="text"
               value={currentEvent.name}
@@ -71,6 +71,9 @@ const ManageEvent = () => {
               }
             />
             <br />
+
+            {/* Event Description */}
+            <label>Description</label>
             <textarea
               value={currentEvent.description}
               onChange={(e) =>
@@ -81,14 +84,75 @@ const ManageEvent = () => {
               }
             />
             <br />
+
+            {/* Category Dropdown */}
+            <label>Category</label>
+            <select
+              value={currentEvent.category}
+              onChange={(e) =>
+                setCurrentEvent({ ...currentEvent, category: e.target.value })
+              }
+            >
+              <option value="All">All</option>
+              <option value="Music">Music</option>
+              <option value="Sports">Sports</option>
+              <option value="Art">Art</option>
+              <option value="Tech">Tech</option>
+            </select>
+            <br />
+
+            {/* Audience */}
+            <label>Number of Audience</label>
+            <input
+              type="number"
+              value={currentEvent.audience}
+              onChange={(e) =>
+                setCurrentEvent({ ...currentEvent, audience: e.target.value })
+              }
+            />
+            <br />
+
+            {/* Date */}
+            <label>Date</label>
+            <input
+              type="date"
+              value={currentEvent.date}
+              onChange={(e) =>
+                setCurrentEvent({ ...currentEvent, date: e.target.value })
+              }
+            />
+            <br />
+
+            {/* Time */}
+            <label>Time</label>
+            <input
+              type="time"
+              value={currentEvent.time}
+              onChange={(e) =>
+                setCurrentEvent({ ...currentEvent, time: e.target.value })
+              }
+            />
+            <br />
+
+            {/* Venue */}
+            <label>Venue</label>
+            <input
+              type="text"
+              value={currentEvent.venue}
+              onChange={(e) =>
+                setCurrentEvent({ ...currentEvent, venue: e.target.value })
+              }
+            />
+            <br />
+
+            {/* Save and Cancel Buttons */}
             <button onClick={() => handleSave(currentEvent)}>Save</button>
             <button onClick={() => setIsModalOpen(false)}>Cancel</button>
           </div>
         </div>
       )}
 
-      
-      <Footer/>
+      <Footer />
     </div>
   );
 };
