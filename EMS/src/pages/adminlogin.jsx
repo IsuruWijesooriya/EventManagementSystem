@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import CryptoJS from 'crypto-js';
 import '../components/AdminLogin.css';
-import ManageEvent from './manageevent'; 
+import ManageEvent from './manageevent';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -8,13 +9,14 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const ADMIN_USERNAME = 'admin';
-  const ADMIN_PASSWORD = 'password123';
+  const ADMIN_USERNAME = import.meta.env.VITE_ADMIN_USERNAME;
+const ADMIN_PASSWORD_HASH = import.meta.env.VITE_ADMIN_PASSWORD_HASH;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      setIsLoggedIn(true);  
+    const hashedPassword = CryptoJS.SHA256(password).toString();
+    if (username === ADMIN_USERNAME && hashedPassword === ADMIN_PASSWORD_HASH) {
+      setIsLoggedIn(true);
       setError('');
     } else {
       setError('Invalid username or password.');
@@ -22,11 +24,10 @@ const AdminLogin = () => {
     }
   };
 
- 
   return (
     <div>
       {isLoggedIn ? (
-        <ManageEvent /> 
+        <ManageEvent />
       ) : (
         <div className="admin-login-container">
           <h2>Admin Login</h2>
