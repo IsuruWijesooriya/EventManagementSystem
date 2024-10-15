@@ -10,6 +10,9 @@ const Header = () => {
       <div className="logo">
         <img src={logo} alt="Event Logo" className="logo-img" />
       </div>
+      <div>
+        <h1>Home</h1>
+      </div>
       <nav className="nav">
         <Link to="/about" className="nav-item button">About</Link>
       </nav>
