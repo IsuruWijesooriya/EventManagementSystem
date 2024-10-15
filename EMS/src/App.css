@@ -57,7 +57,7 @@ body {
 }
 
 .nav-item.button {
-  background-color: #238636;
+  background-color: #0f3460;
   color: #ffffff;
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
@@ -67,7 +67,7 @@ body {
 }
 
 .nav-item.button:hover {
-  background-color: #2ea043;
+  background-color: #16213e;
   transform: translateY(-4px);
 }
 
@@ -281,7 +281,7 @@ body {
 }
 
 .page-btn {
-  background-color: #238636;
+  background-color: #0f3460;
   border: none;
   padding: 1rem 1.5rem;
   color: #ffffff;
@@ -291,7 +291,7 @@ body {
 }
 
 .page-btn:hover {
-  background-color: #2ea043;
+  background-color: #16213e;
   transform: translateY(-6px);
 }
 
