@@ -8,12 +8,22 @@ const ManageEvent = () => {
     { id: 1, name: 'Event 1', description: 'Description for Event 1', category: 'Music', audience: 100, date: '2024-12-01', time: '18:00', venue: 'Hall A' },
     { id: 2, name: 'Event 2', description: 'Description for Event 2', category: 'Sports', audience: 200, date: '2024-12-05', time: '14:00', venue: 'Stadium' },
     { id: 3, name: 'Event 3', description: 'Description for Event 3', category: 'Art', audience: 150, date: '2024-12-08', time: '10:00', venue: 'Art Gallery' },
-    // Add more events as needed
+    { id: 4, name: 'Event 4', description: 'Description for Event 4', category: 'Tech', audience: 120, date: '2024-12-10', time: '14:00', venue: 'Tech Hall' },
+    { id: 5, name: 'Event 5', description: 'Description for Event 5', category: 'Music', audience: 100, date: '2024-12-11', time: '20:00', venue: 'Concert Hall' },
+    { id: 6, name: 'Event 6', description: 'Description for Event 6', category: 'Music', audience: 110, date: '2024-12-01', time: '18:00', venue: 'Hall A' },
+    { id: 7, name: 'Event 7', description: 'Description for Event 7', category: 'Sports', audience: 210, date: '2024-12-05', time: '14:00', venue: 'Stadium' },
+    { id: 8, name: 'Event 8', description: 'Description for Event 8', category: 'Art', audience: 160, date: '2024-12-08', time: '10:00', venue: 'Art Gallery' },
+    { id: 9, name: 'Event 9', description: 'Description for Event 9', category: 'Tech', audience: 60, date: '2024-12-10', time: '14:00', venue: 'Tech Hall' },
+    { id: 10, name: 'Event 10', description: 'Description for Event 10', category: 'Music', audience: 180, date: '2024-12-11', time: '20:00', venue: 'Concert Hall' },
   ]);
 
   const [currentEvent, setCurrentEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [category, setCategory] = useState('all');
+  const [sortOrder, setSortOrder] = useState('latest');
+  const [currentPage, setCurrentPage] = useState(1);
+  const eventsPerPage = 6;
 
   const handleEditClick = (event) => {
     setCurrentEvent(event);
@@ -25,15 +35,31 @@ const ManageEvent = () => {
     setIsModalOpen(false);
   };
 
-  // Filter events based on search query
-  const filteredEvents = events.filter((event) =>
-    event.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // Filter and sort events based on search query, category, and sort order
+  const filteredEvents = events
+    .filter((event) =>
+      event.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (category === 'all' || event.category.toLowerCase() === category.toLowerCase())
+    )
+    .sort((a, b) => (sortOrder === 'latest' ? b.id - a.id : a.id - b.id));
+
+  const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+
+  // Get events for the current page
+  const currentEvents = filteredEvents.slice(
+    (currentPage - 1) * eventsPerPage,
+    currentPage * eventsPerPage
   );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="App">
       <Header />
 
+      {/* Navbar with Search and Add Event */}
       <nav className="navbar">
         <div>
           <a href="/">Home</a>
@@ -47,12 +73,61 @@ const ManageEvent = () => {
         />
       </nav>
 
-      <div className="event-grid">
-        {filteredEvents.map((event) => (
-          <div className="event-card" key={event.id}>
-            <h2>{event.name}</h2>
-            <button onClick={() => handleEditClick(event)}>Edit</button>
+      {/* Filter Section for Category and Sort Order */}
+      <section className="filter-section">
+        <div className="filters">
+          <div className="filter-item">
+            <label htmlFor="category">Category</label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="all">All</option>
+              <option value="Music">Music</option>
+              <option value="Sports">Sports</option>
+              <option value="Art">Art</option>
+              <option value="Tech">Tech</option>
+            </select>
           </div>
+          <div className="filter-item">
+            <label htmlFor="sort">Sort By</label>
+            <select
+              id="sort"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="latest">Latest to Oldest</option>
+              <option value="oldest">Oldest to Latest</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {/* Event Grid */}
+      <div className="event-grid">
+        {currentEvents.map((event) => (
+          <div 
+            className="event-card clickable" 
+            key={event.id}
+            onClick={() => handleEditClick(event)}
+          >
+            <h2>{event.name}</h2>
+            <p>{event.description}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="pagination">
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index + 1}
+            className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
         ))}
       </div>
 

@@ -6,15 +6,33 @@ body {
     color: #ffffff;
 }
 
+.App {
+    width: 100vw;
+    max-width: 1280px; /* Consistent max-width for the entire page */
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* Header Styles */
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0; /* Remove extra margin */
+}
 
 /* Navbar Styles */
 .navbar {
+    width: 100%; /* Full width */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background-color: #001f3f; /* Navy Blue */
     color: white;
+    box-sizing: border-box; /* Ensure padding doesn't break the layout */
+    margin-bottom: 20px;
 }
 
 .navbar a {
@@ -32,17 +50,48 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: none;
+    width: 200px;
 }
 
-/* Event Grid Styles */
+/* Filter Section */
+.filter-section {
+    width: 93.5%; 
+    display: flex;
+    justify-content: center; /* Center the filters */
+    padding: 10px 0;
+    margin-bottom: 20px;
+    background-color: #001f3f; /* Navy blue */
+    color: white;
+    box-sizing: border-box; /* Ensure padding doesn't break the layout */
+    gap: 20px;
+}
+
+.filters {
+    display: flex;
+    justify-content: center; /* Center filters */
+    gap: 40px;
+}
+
+.filter-item label {
+    margin-right: 10px;
+}
+
+.filter-item select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Event Grid */
 .event-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px; /* Adds space between cards */
-    padding: 40px;
+    justify-content: center; /* Center the event grid */
+    gap: 30px; /* Adds space between cards */
+    padding: 20px;
 }
 
+/* Event Card */
 .event-card {
     border: 2px solid #0f3460; /* Dark Blue border */
     padding: 20px;
@@ -54,6 +103,7 @@ body {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: white;
+    cursor: pointer;
 }
 
 .event-card:hover {
@@ -67,39 +117,41 @@ body {
     margin-bottom: 20px;
 }
 
-.event-card button {
-    background-color: #0f3460; /* Dark Blue */
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.page-btn {
+    background-color: #0f3460;
     color: white;
     border: none;
+    margin: 0 5px;
     padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-.event-card button:hover {
-    background-color: #16213e; /* Slightly darker blue on hover */
+.page-btn.active {
+    background-color: #64e3ee;
+    color: #001f3f;
 }
 
-/* Footer Styles */
-footer {
-    padding: 20px;
-    background-color: #001f3f; /* Navy Blue footer */
-    color: white;
-    text-align: center;
-    margin-top: 40px;
+.page-btn:hover {
+    background-color: #16213e;
 }
+
 
 /* Modal Styles */
 .modal {
-    overflow-y: auto;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    background: rgba(0, 0, 0, 0.7); /* Dark overlay */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,6 +164,8 @@ footer {
     border-radius: 15px; /* Smooth rounded corners */
     width: 450px; /* Wider modal for better form presentation */
     max-width: 90%;
+    max-height: 80vh; /* Limit modal height to 80% of viewport height */
+    overflow-y: auto; /* Enable vertical scroll if content exceeds modal height */
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5); /* Soft shadow for elevation */
     text-align: center;
     color: white; /* White text for contrast */
