@@ -5,16 +5,16 @@ import Footer from '../components/Footer';
 
 const ManageEvent = () => {
   const [events, setEvents] = useState([
-    { id: 1, name: 'Event 1', description: 'Description for Event 1', category: 'Music', audience: 100, date: '2024-12-01', time: '18:00', venue: 'Hall A' },
-    { id: 2, name: 'Event 2', description: 'Description for Event 2', category: 'Sports', audience: 200, date: '2024-12-05', time: '14:00', venue: 'Stadium' },
-    { id: 3, name: 'Event 3', description: 'Description for Event 3', category: 'Art', audience: 150, date: '2024-12-08', time: '10:00', venue: 'Art Gallery' },
-    { id: 4, name: 'Event 4', description: 'Description for Event 4', category: 'Tech', audience: 120, date: '2024-12-10', time: '14:00', venue: 'Tech Hall' },
-    { id: 5, name: 'Event 5', description: 'Description for Event 5', category: 'Music', audience: 100, date: '2024-12-11', time: '20:00', venue: 'Concert Hall' },
-    { id: 6, name: 'Event 6', description: 'Description for Event 6', category: 'Music', audience: 110, date: '2024-12-01', time: '18:00', venue: 'Hall A' },
-    { id: 7, name: 'Event 7', description: 'Description for Event 7', category: 'Sports', audience: 210, date: '2024-12-05', time: '14:00', venue: 'Stadium' },
-    { id: 8, name: 'Event 8', description: 'Description for Event 8', category: 'Art', audience: 160, date: '2024-12-08', time: '10:00', venue: 'Art Gallery' },
-    { id: 9, name: 'Event 9', description: 'Description for Event 9', category: 'Tech', audience: 60, date: '2024-12-10', time: '14:00', venue: 'Tech Hall' },
-    { id: 10, name: 'Event 10', description: 'Description for Event 10', category: 'Music', audience: 180, date: '2024-12-11', time: '20:00', venue: 'Concert Hall' },
+    { id: 1, name: 'Event 1', description: 'Description for Event 1', category: 'Music', audience: 100, datetime: '2024-12-01T18:00', venue: 'Hall A' },
+    { id: 2, name: 'Event 2', description: 'Description for Event 2', category: 'Sports', audience: 200, datetime: '2024-12-05T14:00', venue: 'Stadium' },
+    { id: 3, name: 'Event 3', description: 'Description for Event 3', category: 'Art', audience: 150, datetime: '2024-12-08T10:00', venue: 'Art Gallery' },
+    { id: 4, name: 'Event 4', description: 'Description for Event 4', category: 'Tech', audience: 120, datetime: '2024-12-10T14:00', venue: 'Tech Hall' },
+    { id: 5, name: 'Event 5', description: 'Description for Event 5', category: 'Music', audience: 100, datetime: '2024-12-11T20:00', venue: 'Concert Hall' },
+    { id: 6, name: 'Event 6', description: 'Description for Event 6', category: 'Music', audience: 100, datetime: '2024-12-01T18:00', venue: 'Hall A' },
+    { id: 7, name: 'Event 7', description: 'Description for Event 7', category: 'Sports', audience: 200, datetime: '2024-12-05T14:00', venue: 'Stadium' },
+    { id: 8, name: 'Event 8', description: 'Description for Event 8', category: 'Art', audience: 150, datetime: '2024-12-08T10:00', venue: 'Art Gallery' },
+    { id: 9, name: 'Event 9', description: 'Description for Event 9', category: 'Tech', audience: 120, datetime: '2024-12-10T14:00', venue: 'Tech Hall' },
+    { id: 10, name: 'Event 10', description: 'Description for Event 10', category: 'Music', audience: 100, datetime: '2024-12-11T20:00', venue: 'Concert Hall' },
   ]);
 
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -187,24 +187,13 @@ const ManageEvent = () => {
             />
             <br />
 
-            {/* Date */}
-            <label>Date</label>
+            {/* Combined Date and Time (Datetime) */}
+            <label>Date & Time</label>
             <input
-              type="date"
-              value={currentEvent.date}
+              type="datetime-local"
+              value={currentEvent.datetime}
               onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, date: e.target.value })
-              }
-            />
-            <br />
-
-            {/* Time */}
-            <label>Time</label>
-            <input
-              type="time"
-              value={currentEvent.time}
-              onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, time: e.target.value })
+                setCurrentEvent({ ...currentEvent, datetime: e.target.value })
               }
             />
             <br />
