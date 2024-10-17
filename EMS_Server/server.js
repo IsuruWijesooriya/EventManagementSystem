@@ -2,9 +2,14 @@ const express = require('express');
 const { Event } = require('./models');
 const multer = require('multer');
 const path = require('path');
+const cors = require('cors'); // Import cors
 
 const app = express();
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
+
+// Serve images from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Configure multer for image uploads
 const storage = multer.diskStorage({
@@ -18,12 +23,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Get all events
+// Get all events with adjusted image paths
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.findAll();
-    res.json(events);
+    // Convert Sequelize instances to plain objects
+    const plainEvents = events.map(event => event.get({ plain: true }));
+    console.log('Plain Events from DB:', plainEvents); // Log to check data format
+    res.status(200).json(plainEvents);
   } catch (error) {
+    console.error('Error fetching events:', error);
     res.status(500).json({ error: 'Failed to fetch events' });
   }
 });
@@ -33,7 +42,7 @@ app.post('/api/events', upload.single('image'), async (req, res) => {
   try {
     const { name, description, eventtimestamp, venue, category, noparticipants } = req.body;
     const image = req.file ? req.file.path : null;
- 
+
     const newEvent = await Event.create({
       name,
       description,
@@ -43,7 +52,7 @@ app.post('/api/events', upload.single('image'), async (req, res) => {
       category,
       noparticipants: parseInt(noparticipants)
     });
- 
+
     res.status(201).json(newEvent);
   } catch (error) {
     console.error('Error:', error);

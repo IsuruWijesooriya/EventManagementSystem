@@ -40,7 +40,7 @@ const Addevent = () => {
         setMessage('Failed to add event. Please try again.');
       }
     } catch (error) {
-      setMessage('Form submitted');
+      setMessage('Error Occured!');
       console.error('Error:', error);
     }
   };
