@@ -213,7 +213,8 @@ const ManageEvent = () => {
               <label>Image(PNG only)</label>
             <input
               type="file"
-              value={currentEvent.image}
+              accept="image/png"
+              value={currentEvent.image} 
               onChange={(e) =>
                 setCurrentEvent({ ...currentEvent, image: e.target.value })
               }

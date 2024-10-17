@@ -1,9 +1,10 @@
 {
   "development": {
-    "username": "if0_3752",
-    "password": "jIHd16hHNSt ",
-    "database": "if0_37526036_ems",
-    "host": "185.27.134.92",
+    "username": "root",
+    "password": "",
+    "database": "ems",
+    "host": "127.0.0.1",
+    "port": 3306,
     "dialect": "mysql"
   }
 }
