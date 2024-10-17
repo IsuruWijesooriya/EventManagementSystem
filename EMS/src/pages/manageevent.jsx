@@ -209,6 +209,17 @@ const ManageEvent = () => {
             />
             <br />
 
+            {/* Image */}
+              <label>Image(PNG only)</label>
+            <input
+              type="file"
+              value={currentEvent.image}
+              onChange={(e) =>
+                setCurrentEvent({ ...currentEvent, image: e.target.value })
+              }
+             />
+            <br />
+
             {/* Save and Cancel Buttons */}
             <button onClick={() => handleSave(currentEvent)}>Save</button>
             <button onClick={() => setIsModalOpen(false)}>Cancel</button>
