@@ -1,35 +1,48 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import Header from '../components/Header';
-import 'react-datepicker/dist/react-datepicker.css'; // Add date picker styles
-import '../components/addevent.css'; 
+import 'react-datepicker/dist/react-datepicker.css';
+import '../components/addevent.css';
 
 const Addevent = () => {
   const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState(new Date()); // Date picker
+  const [eventDate, setEventDate] = useState(new Date());
   const [eventLocation, setEventLocation] = useState('');
   const [eventDetails, setEventDetails] = useState('');
   const [image, setImage] = useState(null);
   const [category, setCategory] = useState('');
   const [participants, setParticipants] = useState('');
+  const [message, setMessage] = useState(''); // State for success/error message
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const eventData = {
-      eventName,
-      eventDate,
-      eventLocation,
-      eventDetails,
-      image,
-      category,
-      participants
-    };
-    console.log(eventData);
-    // Add form submission logic here
+    const formData = new FormData();
+    formData.append('name', eventName);
+    formData.append('eventtimestamp', eventDate.toISOString());
+    formData.append('venue', eventLocation);
+    formData.append('description', eventDetails);
+    formData.append('image', image);
+    formData.append('category', category);
+    formData.append('noparticipants', participants);
+
+    try {
+      const response = await fetch('http://localhost:3000/api/events', {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok) {
+        setMessage('Event added successfully!');
+      } else {
+        setMessage('Failed to add event. Please try again.');
+      }
+    } catch (error) {
+      setMessage('Error Occured!');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -64,11 +77,11 @@ const Addevent = () => {
             <DatePicker
               selected={eventDate}
               onChange={(date) => setEventDate(date)}
-              dateFormat="dd/MM/yyyy h:mm aa" // Includes both date and time formatting
-              showTimeSelect // Enable time selection
-              timeFormat="HH:mm" // Set the time format (24-hour or 12-hour)
-              timeIntervals={15} // Set the time interval for selection (e.g., 15 minutes)
-              timeCaption="Time" // Caption for the time picker
+              dateFormat="dd/MM/yyyy h:mm aa"
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              timeCaption="Time"
               required
             />
           </div>
@@ -89,16 +102,17 @@ const Addevent = () => {
             <input
               type="file"
               onChange={handleImageChange}
-              accept=".png"  // Restrict to PNG files only
+              accept=".png"
               required
             />
           </div>
 
           <div className="input-container">
             <label>Category:</label>
-            <select className="drdown"
-              value={category} 
-              onChange={(e) => setCategory(e.target.value)} 
+            <select
+              className="drdown"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               required
             >
               <option value="" disabled>Select category</option>
@@ -122,6 +136,8 @@ const Addevent = () => {
 
           <button type="submit" className="submit-btn">Add Event</button>
         </form>
+        {/* Display success or error message */}
+        {message && <p className="form-message">{message}</p>}
       </div>
     </div>
   );
