@@ -142,10 +142,6 @@ body {
 .delete-button {
     pointer-events: auto; /* Allow events on the button */
 }
- 
-.event-card:hover .delete-button {
-    pointer-events: none; /* Prevent hover on button from affecting the event card */
-}
 
 .event-card:hover {
     transform: translateY(-5px);
