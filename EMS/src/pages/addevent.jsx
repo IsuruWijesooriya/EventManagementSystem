@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../components/addevent.css';
 
@@ -28,7 +29,7 @@ const Addevent = () => {
     formData.append('image', image);
     formData.append('category', category);
     formData.append('noparticipants', participants);
-
+  
     try {
       const response = await fetch('http://localhost:3000/api/events', {
         method: 'POST',
@@ -36,20 +37,30 @@ const Addevent = () => {
       });
       if (response.ok) {
         setMessage('Event added successfully!');
+        
+        // Reset the form fields
+        setEventName('');
+        setEventDate(new Date()); // or an empty string if you handle the date differently
+        setEventLocation('');
+        setEventDetails('');
+        setImage(null); // Reset image field
+        setCategory(''); // Assuming '' is the default or no category selected
+        setParticipants('');
+  
       } else {
         setMessage('Failed to add event. Please try again.');
       }
     } catch (error) {
-      setMessage('Error Occured!');
+      setMessage('Error Occurred!');
       console.error('Error:', error);
     }
   };
+  
 
   return (
     <div className="newheader">
       <Header />
       <div className="form-container">
-        <h1 className="form-title">Add Event</h1>
         <form onSubmit={handleSubmit} className="form-content">
           <div className="input-container">
             <label>Event Name:</label>
@@ -139,6 +150,7 @@ const Addevent = () => {
         {/* Display success or error message */}
         {message && <p className="form-message">{message}</p>}
       </div>
+      <Footer />
     </div>
   );
 };
