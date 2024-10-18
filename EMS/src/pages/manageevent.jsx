@@ -1,22 +1,10 @@
-import React, { useState } from 'react';
-import '../components/ManageEvent.css'; 
+import React, { useState, useEffect } from 'react';
+import '../components/ManageEvent.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+ 
 const ManageEvent = () => {
-  const [events, setEvents] = useState([
-    { id: 1, name: 'Event 1', description: 'Description for Event 1', category: 'Music', audience: 100, datetime: '2024-12-01T18:00', venue: 'Hall A' },
-    { id: 2, name: 'Event 2', description: 'Description for Event 2', category: 'Sports', audience: 200, datetime: '2024-12-05T14:00', venue: 'Stadium' },
-    { id: 3, name: 'Event 3', description: 'Description for Event 3', category: 'Art', audience: 150, datetime: '2024-12-08T10:00', venue: 'Art Gallery' },
-    { id: 4, name: 'Event 4', description: 'Description for Event 4', category: 'Tech', audience: 120, datetime: '2024-12-10T14:00', venue: 'Tech Hall' },
-    { id: 5, name: 'Event 5', description: 'Description for Event 5', category: 'Music', audience: 100, datetime: '2024-12-11T20:00', venue: 'Concert Hall' },
-    { id: 6, name: 'Event 6', description: 'Description for Event 6', category: 'Music', audience: 100, datetime: '2024-12-01T18:00', venue: 'Hall A' },
-    { id: 7, name: 'Event 7', description: 'Description for Event 7', category: 'Sports', audience: 200, datetime: '2024-12-05T14:00', venue: 'Stadium' },
-    { id: 8, name: 'Event 8', description: 'Description for Event 8', category: 'Art', audience: 150, datetime: '2024-12-08T10:00', venue: 'Art Gallery' },
-    { id: 9, name: 'Event 9', description: 'Description for Event 9', category: 'Tech', audience: 120, datetime: '2024-12-10T14:00', venue: 'Tech Hall' },
-    { id: 10, name: 'Event 10', description: 'Description for Event 10', category: 'Music', audience: 100, datetime: '2024-12-11T20:00', venue: 'Concert Hall' },
-  ]);
-
+  const [events, setEvents] = useState([]);
   const [currentEvent, setCurrentEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,201 +12,259 @@ const ManageEvent = () => {
   const [sortOrder, setSortOrder] = useState('latest');
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 6;
-
+  const [imagePreview, setImagePreview] = useState(null);
+  const [message, setMessage] = useState(''); // Message is initially empty
+ 
+  const [originalEvent, setOriginalEvent] = useState(null); // Store original event data for comparison
+ 
+  // Fetch events from the API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/events');
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+ 
+    fetchEvents();
+  }, []);
+ 
   const handleEditClick = (event) => {
+    setOriginalEvent(event); // Set original event data for comparison
     setCurrentEvent(event);
+    setImagePreview(`http://localhost:3000/${event.image}`);
     setIsModalOpen(true);
+    setMessage(''); // Clear message when opening the modal
   };
-
-  const handleSave = (updatedEvent) => {
-    setEvents(events.map(event => event.id === updatedEvent.id ? updatedEvent : event));
-    setIsModalOpen(false);
+ 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      setCurrentEvent({ ...currentEvent, image: file });
+    }
   };
-
-  // Filter and sort events based on search query, category, and sort order
+ 
+  const handleSubmit = async () => {
+    if (!currentEvent) return;
+ 
+    // Prevent submission if there are no changes
+    if (
+      currentEvent.name === originalEvent.name &&
+      currentEvent.description === originalEvent.description &&
+      currentEvent.eventtimestamp === originalEvent.eventtimestamp &&
+      currentEvent.venue === originalEvent.venue &&
+      currentEvent.category === originalEvent.category &&
+      currentEvent.noparticipants === originalEvent.noparticipants &&
+      !(currentEvent.image instanceof File) // No new image uploaded
+    ) {
+      setMessage('No changes detected, event not updated.');
+      return;
+    }
+ 
+    const formData = new FormData();
+    formData.append('name', currentEvent.name);
+    formData.append('description', currentEvent.description);
+    formData.append('eventtimestamp', currentEvent.eventtimestamp);
+    formData.append('venue', currentEvent.venue);
+    formData.append('category', currentEvent.category);
+    formData.append('noparticipants', currentEvent.noparticipants);
+ 
+    if (currentEvent.image instanceof File) {
+      formData.append('image', currentEvent.image);
+    }
+ 
+    try {
+      const response = await fetch(`http://localhost:3000/api/events/${currentEvent.id}`, {
+        method: 'PUT',
+        body: formData,
+      });
+ 
+      if (response.ok) {
+        const updatedEvent = await response.json();
+        setEvents(events.map(event => (event.id === updatedEvent.id ? updatedEvent : event)));
+        setMessage('Event updated successfully!'); // Set success message only after successful update
+        setIsModalOpen(false); // Close modal after successful update
+      } else {
+        const errorResponse = await response.json();
+        console.error('Failed to update event:', errorResponse);
+        setMessage('Failed to update event. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating event:', error);
+      setMessage('An error occurred while updating the event.');
+    }
+  };
+ 
   const filteredEvents = events
     .filter((event) =>
       event.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (category === 'all' || event.category.toLowerCase() === category.toLowerCase())
     )
     .sort((a, b) => (sortOrder === 'latest' ? b.id - a.id : a.id - b.id));
-
+ 
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
-
-  // Get events for the current page
   const currentEvents = filteredEvents.slice(
     (currentPage - 1) * eventsPerPage,
     currentPage * eventsPerPage
   );
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
+ 
   return (
-    <div className="App">
-      <Header />
-
-      {/* Navbar with Search and Add Event */}
+<div className="App">
+<Header />
+ 
       <nav className="navbar">
-        <div>
-          <a href="/">Home</a>
-          <a href="/addevent">Add Event</a>
-        </div>
-        <input
+<div>
+<a href="/">Home</a>
+<a href="/addevent">Add Event</a>
+</div>
+<input
           type="text"
           placeholder="Search Event"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </nav>
-
-      {/* Filter Section for Category and Sort Order */}
+</nav>
+ 
       <section className="filter-section">
-        <div className="filters">
-          <div className="filter-item">
-            <label htmlFor="category">Category</label>
-            <select
+<div className="filters">
+<div className="filter-item">
+<label htmlFor="category">Category</label>
+<select
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="Music">Music</option>
-              <option value="Sports">Sports</option>
-              <option value="Art">Art</option>
-              <option value="Tech">Tech</option>
-            </select>
-          </div>
-          <div className="filter-item">
-            <label htmlFor="sort">Sort By</label>
-            <select
+>
+<option value="all">All</option>
+<option value="Music">Music</option>
+<option value="Sports">Sports</option>
+<option value="Art">Art</option>
+<option value="Tech">Tech</option>
+</select>
+</div>
+<div className="filter-item">
+<label htmlFor="sort">Sort By</label>
+<select
               id="sort"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="latest">Latest to Oldest</option>
-              <option value="oldest">Oldest to Latest</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      {/* Event Grid */}
+>
+<option value="latest">Latest to Oldest</option>
+<option value="oldest">Oldest to Latest</option>
+</select>
+</div>
+</div>
+</section>
+ 
       <div className="event-grid">
         {currentEvents.map((event) => (
-          <div 
-            className="event-card clickable" 
+<div
+            className="event-card clickable"
             key={event.id}
             onClick={() => handleEditClick(event)}
-          >
-            <h2>{event.name}</h2>
-            <p>{event.description}</p>
-          </div>
+>
+<h2>{event.name}</h2>
+<p>{event.description}</p>
+</div>
         ))}
-      </div>
-
-      {/* Pagination */}
+</div>
+ 
       <div className="pagination">
         {[...Array(totalPages)].map((_, index) => (
-          <button
+<button
             key={index + 1}
             className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
-            onClick={() => handlePageChange(index + 1)}
-          >
+            onClick={() => setCurrentPage(index + 1)}
+>
             {index + 1}
-          </button>
+</button>
         ))}
-      </div>
-
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Edit Event</h2>
-
-            {/* Event Name */}
+</div>
+ 
+      {isModalOpen && currentEvent && (
+<div className="modal">
+<div className="modal-content">
+<h2>Edit Event</h2>
+ 
             <label>Event Name</label>
-            <input
+<input
               type="text"
-              value={currentEvent.name}
-              onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, name: e.target.value })
-              }
+              value={currentEvent?.name || ''}
+              onChange={(e) => setCurrentEvent({ ...currentEvent, name: e.target.value })}
             />
-            <br />
-
-            {/* Event Description */}
+<br />
+ 
             <label>Description</label>
-            <textarea
-              value={currentEvent.description}
-              onChange={(e) =>
-                setCurrentEvent({
-                  ...currentEvent,
-                  description: e.target.value,
-                })
-              }
+<textarea
+              value={currentEvent?.description || ''}
+              onChange={(e) => setCurrentEvent({ ...currentEvent, description: e.target.value })}
             />
-            <br />
-
-            {/* Category Dropdown */}
+<br />
+ 
             <label>Category</label>
-            <select
-              value={currentEvent.category}
-              onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, category: e.target.value })
-              }
-            >
-              <option value="All">All</option>
-              <option value="Music">Music</option>
-              <option value="Sports">Sports</option>
-              <option value="Art">Art</option>
-              <option value="Tech">Tech</option>
-            </select>
-            <br />
-
-            {/* Audience */}
-            <label>Number of Audience</label>
-            <input
+<select
+              value={currentEvent?.category || ''}
+              onChange={(e) => setCurrentEvent({ ...currentEvent, category: e.target.value })}
+>
+<option value="Music">Music</option>
+<option value="Sports">Sports</option>
+<option value="Art">Art</option>
+<option value="Tech">Tech</option>
+</select>
+<br />
+ 
+            <label>Number of Participants</label>
+<input
               type="number"
-              value={currentEvent.audience}
-              onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, audience: e.target.value })
-              }
+              value={currentEvent?.noparticipants || ''}
+              onChange={(e) => setCurrentEvent({ ...currentEvent, noparticipants: e.target.value })}
             />
-            <br />
-
-            {/* Combined Date and Time (Datetime) */}
+<br />
+ 
             <label>Date & Time</label>
-            <input
+<input
               type="datetime-local"
-              value={currentEvent.datetime}
-              onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, datetime: e.target.value })
-              }
+              value={currentEvent?.eventtimestamp ? new Date(currentEvent.eventtimestamp).toISOString().slice(0, 16) : ''}
+              onChange={(e) => setCurrentEvent({ ...currentEvent, eventtimestamp: e.target.value })}
             />
-            <br />
-
-            {/* Venue */}
+<br />
+ 
             <label>Venue</label>
-            <input
+<input
               type="text"
-              value={currentEvent.venue}
-              onChange={(e) =>
-                setCurrentEvent({ ...currentEvent, venue: e.target.value })
-              }
+              value={currentEvent?.venue || ''}
+              onChange={(e) => setCurrentEvent({ ...currentEvent, venue: e.target.value })}
             />
-            <br />
-
-            {/* Save and Cancel Buttons */}
-            <button onClick={() => handleSave(currentEvent)}>Save</button>
-            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-          </div>
-        </div>
+<br />
+ 
+            <label>Image (PNG only)</label>
+<input
+              type="file"
+              accept="image/png"
+              onChange={handleImageChange}
+            />
+<br />
+ 
+            {imagePreview && (
+<div className="image-preview">
+<img src={imagePreview} alt="Preview" width="200px" />
+</div>
+            )}
+ 
+            <button onClick={handleSubmit}>Submit</button>
+<button onClick={() => setIsModalOpen(false)}>Cancel</button>
+ 
+            {message && <p>{message}</p>}
+</div>
+</div>
       )}
-
+ 
       <Footer />
-    </div>
+</div>
   );
 };
-
+ 
 export default ManageEvent;
