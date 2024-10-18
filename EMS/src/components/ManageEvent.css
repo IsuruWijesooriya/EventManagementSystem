@@ -92,18 +92,55 @@ body {
 }
 
 /* Event Card */
+/* Event Card */
 .event-card {
-    border: 2px solid #0f3460; /* Dark Blue border */
+    position: relative; /* Ensure relative positioning for absolute button */
+    border: 2px solid #0f3460;
     padding: 20px;
     margin: 15px;
-    width: 200px; /* Slightly larger cards */
-    background-color: #2c3e50; /* Dark grey background */
+    width: 200px;
+    background-color: #2c3e50;
     text-align: center;
     border-radius: 10px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: white;
     cursor: pointer;
+}
+ 
+.event-card:hover {
+    transform: scale(1.05); /* Slight scale on hover */
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3); /* Deepen shadow on hover */
+}
+ 
+/* Red Circle Button */
+.delete-button {
+    position: absolute;
+    top: -25px; /* Move the button further upwards */
+    right: -25px; /* Move the button further to the right */
+    width: 50px; /* Button size */
+    height: 50px;
+    background-color: red;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for a better visual effect */
+    z-index: 1; /* Ensure it appears above the card */
+  }
+   
+  /* Delete Button Hover */
+  .delete-button:hover {
+    background-color: darkred; /* Change button color on hover */
+  }
+ 
+/* Ensure the event card doesn't respond to hover when hovering over the button */
+.delete-button {
+    pointer-events: auto; /* Allow events on the button */
 }
 
 .event-card:hover {
