@@ -1,5 +1,6 @@
 import React from 'react';
 import '../components/Aboutus.css'; 
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 const AboutUs = () => {
 
@@ -32,7 +33,7 @@ const AboutUs = () => {
 
   return (
     <>
-    <h1>About Us</h1>
+      <Header />
     <div className="about-container">
       {people.map((person, index) => (
         <div className="person-tile" key={index}>
