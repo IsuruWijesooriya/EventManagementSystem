@@ -23,6 +23,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+app.get('/', (req, res) => {
+  res.send('Server started successfully');
+});
+
 // Get all events with adjusted image paths
 app.get('/api/events', async (req, res) => {
   try {
