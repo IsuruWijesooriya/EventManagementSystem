@@ -40,6 +40,9 @@ const Header = () => {
         {location.pathname !== '/about' && (
           <Link to="/about" className="nav-item button">About</Link>
         )}
+        {location.pathname == '/about' && (
+          <Link to="/admin" className="nav-item button">Login</Link>
+        )}
       </nav>
     </header>
   );
