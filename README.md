@@ -128,13 +128,9 @@ GET /api/events: Retrieve all events.
 
 POST /api/events: Create a new event.
 
-PUT /api/events/
+PUT /api/events/: Update an existing event.
 
-: Update an existing event.
-
-DELETE /api/events/
-
-: Delete an event.
+DELETE /api/events/: Delete an event.
 
 For more detailed documentation, you can refer to the Swagger API documentation included in the repository.
 
