@@ -26,7 +26,7 @@ const AboutUs = () => {
     {
       name: 'Isuru Wijesooriya',
       title: 'BSc(Hons) Eng. Computer Systems Engineering',
-      description: 'Developing effective marketing strategies for the digital era.',
+      description: 'Expert in full-stack development and project management.',
       image: '../src/assets/athur.png'
     }
   ];
