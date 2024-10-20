@@ -37,7 +37,7 @@ const AboutUs = () => {
     <div className="about-container">
       {people.map((person, index) => (
         <div className="person-tile" key={index}>
-          <img src={person.image} alt={person.name} className="person-image" />
+          <img src={person.image} className="person-image" />
           <h3>{person.name}</h3>
           <h4>{person.title}</h4>
           <p>{person.description}</p>
