@@ -72,6 +72,7 @@ Create a .env file in the root directory and add the following configurations:
 
 .env
 
+
 NODE_ENV=development
 
 PORT=3000
@@ -140,21 +141,7 @@ For more detailed documentation, you can refer to the Swagger API documentation 
 # Project Structure
 
 ![alt text](image.png)
-.
-├── client/               # Front-end (React) code
-│   ├── src/
-│   ├── public/
-│   └── package.json
-├── server/               # Back-end (Node.js/Express) code
-│   ├── models/           # Sequelize models
-│   ├── routes/           # API routes
-│   ├── config/           # Database configuration
-│   ├── server.js         # Entry point of the server
-│   └── package.json
-├── database/             # SQL scripts for database
-│   └── events.sql
-├── .env                  # Environment variables
-└── README.md
+
 
 # Contributing
 
