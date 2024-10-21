@@ -20,7 +20,7 @@ const Home = () => {
     const fetchEvents = async () => {
       setLoading(true); // Start loading
       try {
-        const response = await fetch('http://34.28.204.50:3000/api/events'); // Adjust URL based on your setup
+        const response = await fetch('https://34.28.204.50:3000/api/events'); // Adjust URL based on your setup
         const data = await response.json();
         setEvents(data); // Set fetched events
       } catch (error) {
