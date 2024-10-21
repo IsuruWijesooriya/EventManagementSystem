@@ -80,7 +80,7 @@ const Home = () => {
   <button className="arrow-btn left-arrow" onClick={handlePrev}>&lt;</button>
   <div className="featured-card" onClick={() => openModal(latestEvents[currentFeatured])}>
     <img
-      src={`http://localhost:3000/${latestEvents[currentFeatured]?.image}?t=${Date.now()}`}
+      src={`https://34.28.204.50:3000/${latestEvents[currentFeatured]?.image}?t=${Date.now()}`}
       alt={latestEvents[currentFeatured]?.name}
       className="featured-image"
     />
@@ -136,7 +136,7 @@ const Home = () => {
               {currentEvents.map((event) => (
                 <div key={event.id} className="event-card1" onClick={() => openModal(event)}>
                   <div className="event-card1-image">
-                    <img src={`http://localhost:3000/${event.image}`} alt={event.name} />
+                    <img src={`https://34.28.204.50:3000/${event.image}`} alt={event.name} />
                   </div>
                   <div className="event-card1-content">
                     <h3>{event.name}</h3>
