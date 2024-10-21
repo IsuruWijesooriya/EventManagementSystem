@@ -15,7 +15,7 @@ const Modal = ({ isOpen, onClose, event }) => {
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content featured-card1">
         <img
-          src={`http://localhost:3000/${event?.image}`}
+          src={`https://34.28.204.50:3000/${event?.image}`}
           className="featured-image1"
           alt={event?.name}
         />
