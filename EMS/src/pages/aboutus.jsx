@@ -9,25 +9,25 @@ const AboutUs = () => {
       name: 'Isuru Gunathilaka',
       title: 'BSc(Hons) Eng. Computer Systems Engineering',
       description: 'Expert in full-stack development and project management.',
-      image: './src/assets/isuru.jpg'
+      image: '/assets/isuru.jpg'
     },
     {
       name: 'Hirushika Nissanka',
       title: 'BSc(Hons) Eng. Computer Systems Engineering',
       description: 'Specialist in creating user-centered designs and experiences.',
-      image: './src/assets/hirushika.jpg'
+      image: '/assets/hirushika.jpg'
     },
     {
       name: 'Kasun Dhananjaya',
       title: 'BSc(Hons) Eng. Computer Systems Engineering',
       description: 'Focused on machine learning and data analysis.',
-      image: './src/assets/kasun.jpg'
+      image: '/assets/kasun.jpg'
     },
     {
       name: 'Isuru Wijesooriya',
       title: 'BSc(Hons) Eng. Computer Systems Engineering',
       description: 'Developing effective marketing strategies for the digital era.',
-      image: './src/assets/athur.jpg'
+      image: '/assets/athur.jpg'
     }
   ];
 
@@ -37,7 +37,7 @@ const AboutUs = () => {
     <div className="about-container">
       {people.map((person, index) => (
         <div className="person-tile" key={index}>
-          <img src={person.image} className="person-image" />
+          <img src={person.image} alt={person.name} className="person-image" />
           <h3>{person.name}</h3>
           <h4>{person.title}</h4>
           <p>{person.description}</p>
