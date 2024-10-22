@@ -31,7 +31,7 @@ const Addevent = () => {
     formData.append('noparticipants', participants);
   
     try {
-      const response = await fetch('https://34.121.130.254:3000/api/events', {
+      const response = await fetch('https://shopylk.com/api/events', {
         method: 'POST',
         body: formData,
       });
