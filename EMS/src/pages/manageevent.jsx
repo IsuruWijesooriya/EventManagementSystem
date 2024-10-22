@@ -21,7 +21,7 @@ const ManageEvent = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://34.136.230.234:3000//api/events');
+        const response = await fetch('https://34.136.230.234:3000/api/events');
         const data = await response.json();
         setEvents(data);
       } catch (error) {
@@ -35,7 +35,7 @@ const ManageEvent = () => {
   const handleEditClick = (event) => {
     setOriginalEvent(event); // Set original event data for comparison
     setCurrentEvent(event);
-    setImagePreview(`https://34.136.230.234:3000//${event.image}`);
+    setImagePreview(`https://34.136.230.234:3000/${event.image}`);
     setIsModalOpen(true);
     setMessage(''); // Clear message when opening the modal
   };
@@ -78,7 +78,7 @@ const ManageEvent = () => {
     }
 
     try {
-      const response = await fetch(`https://34.136.230.234:3000//api/events/${currentEvent.id}`, {
+      const response = await fetch(`https://34.136.230.234:3000/api/events/${currentEvent.id}`, {
         method: 'PUT',
         body: formData,
       });
@@ -111,7 +111,7 @@ const ManageEvent = () => {
   // Function to delete the event
   const deleteEvent = async (eventId) => {
     try {
-      const response = await fetch(`https://34.136.230.234:3000//api/events/${eventId}`, {
+      const response = await fetch(`https://34.136.230.234:3000/api/events/${eventId}`, {
         method: 'DELETE',
       });
 
