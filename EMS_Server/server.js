@@ -23,6 +23,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+app.get('/', (req, res) => {
+  res.send('Server started successfully');
+});
+
 // Get all events with adjusted image paths
 app.get('/api/events', async (req, res) => {
   try {
@@ -107,15 +111,15 @@ app.put('/api/events/:id', upload.single('image'), async (req, res) => {
 
 // Delete an event
 app.delete('/api/events/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    await Event.destroy({ where: { id } });
-    res.json({ message: 'Event deleted successfully' });
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Failed to delete event' });
-  }
-});
+    try {
+      const { id } = req.params;  // Get event ID from route
+      await Event.destroy({ where: { id } });  // Delete event from the database
+      res.json({ message: 'Event deleted successfully' });  // Send success response
+    } catch (error) {
+      console.error('Error:', error);  // Log error
+      res.status(500).json({ error: 'Failed to delete event' });  // Send error response
+    }
+  });
 
 // Start the server
 const PORT = process.env.PORT || 3000;

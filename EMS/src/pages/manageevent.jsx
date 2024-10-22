@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../components/ManageEvent.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
- 
+
 const ManageEvent = () => {
   const [events, setEvents] = useState([]);
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -14,32 +14,32 @@ const ManageEvent = () => {
   const eventsPerPage = 6;
   const [imagePreview, setImagePreview] = useState(null);
   const [message, setMessage] = useState(''); // Message is initially empty
- 
+
   const [originalEvent, setOriginalEvent] = useState(null); // Store original event data for comparison
- 
+
   // Fetch events from the API
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/events');
+        const response = await fetch('https://34.28.204.50:3000/api/events');
         const data = await response.json();
         setEvents(data);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
     };
- 
+
     fetchEvents();
   }, []);
- 
+
   const handleEditClick = (event) => {
     setOriginalEvent(event); // Set original event data for comparison
     setCurrentEvent(event);
-    setImagePreview(`http://localhost:3000/${event.image}`);
+    setImagePreview(`https://34.28.204.50:3000/${event.image}`);
     setIsModalOpen(true);
     setMessage(''); // Clear message when opening the modal
   };
- 
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -47,10 +47,10 @@ const ManageEvent = () => {
       setCurrentEvent({ ...currentEvent, image: file });
     }
   };
- 
+
   const handleSubmit = async () => {
     if (!currentEvent) return;
- 
+
     // Prevent submission if there are no changes
     if (
       currentEvent.name === originalEvent.name &&
@@ -64,7 +64,7 @@ const ManageEvent = () => {
       setMessage('No changes detected, event not updated.');
       return;
     }
- 
+
     const formData = new FormData();
     formData.append('name', currentEvent.name);
     formData.append('description', currentEvent.description);
@@ -72,17 +72,17 @@ const ManageEvent = () => {
     formData.append('venue', currentEvent.venue);
     formData.append('category', currentEvent.category);
     formData.append('noparticipants', currentEvent.noparticipants);
- 
+
     if (currentEvent.image instanceof File) {
       formData.append('image', currentEvent.image);
     }
- 
+
     try {
-      const response = await fetch(`http://localhost:3000/api/events/${currentEvent.id}`, {
+      const response = await fetch(`https://34.28.204.50:3000/api/events/${currentEvent.id}`, {
         method: 'PUT',
         body: formData,
       });
- 
+
       if (response.ok) {
         const updatedEvent = await response.json();
         setEvents(events.map(event => (event.id === updatedEvent.id ? updatedEvent : event)));
@@ -98,173 +98,208 @@ const ManageEvent = () => {
       setMessage('An error occurred while updating the event.');
     }
   };
- 
+
+  // Function to handle delete event click with confirmation
+  const handleDeleteClick = (eventId) => {
+    console.log('Delete button clicked for event:', eventId); // Add a console log for debugging
+    const isConfirmed = window.confirm('Are you sure you want to delete this event?');
+    if (isConfirmed) {
+      deleteEvent(eventId);
+    }
+  };
+
+  // Function to delete the event
+  const deleteEvent = async (eventId) => {
+    try {
+      const response = await fetch(`https://34.28.204.50:3000/api/events/${eventId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setEvents(events.filter(event => event.id !== eventId)); // Remove deleted event from the state
+        alert('Event deleted successfully!');
+      } else {
+        alert('Failed to delete event.');
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      alert('An error occurred while deleting the event.');
+    }
+  };
+
   const filteredEvents = events
     .filter((event) =>
       event.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (category === 'all' || event.category.toLowerCase() === category.toLowerCase())
     )
     .sort((a, b) => (sortOrder === 'latest' ? b.id - a.id : a.id - b.id));
- 
+
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
   const currentEvents = filteredEvents.slice(
     (currentPage - 1) * eventsPerPage,
     currentPage * eventsPerPage
   );
- 
+
   return (
-<div className="App">
-<Header />
- 
+    <div className="App">
+      <Header />
+
       <nav className="navbar">
-<div>
-<a href="/">Home</a>
-<a href="/addevent">Add Event</a>
-</div>
-<input
+        <div>
+          <a href="/">Home</a>
+          <a href="/addevent">Add Event</a>
+        </div>
+        <input
           type="text"
           placeholder="Search Event"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-</nav>
- 
+      </nav>
+
       <section className="filter-section">
-<div className="filters">
-<div className="filter-item">
-<label htmlFor="category">Category</label>
-<select
+        <div className="filters">
+          <div className="filter-item">
+            <label htmlFor="category">Category</label>
+            <select
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
->
-<option value="all">All</option>
-<option value="Music">Music</option>
-<option value="Sports">Sports</option>
-<option value="Art">Art</option>
-<option value="Tech">Tech</option>
-</select>
-</div>
-<div className="filter-item">
-<label htmlFor="sort">Sort By</label>
-<select
+            >
+              <option value="all">All</option>
+              <option value="Music">Music</option>
+              <option value="Sports">Sports</option>
+              <option value="Art">Art</option>
+              <option value="Tech">Tech</option>
+            </select>
+          </div>
+          <div className="filter-item">
+            <label htmlFor="sort">Sort By</label>
+            <select
               id="sort"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
->
-<option value="latest">Latest to Oldest</option>
-<option value="oldest">Oldest to Latest</option>
-</select>
-</div>
-</div>
-</section>
- 
+            >
+              <option value="latest">Latest to Oldest</option>
+              <option value="oldest">Oldest to Latest</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
       <div className="event-grid">
         {currentEvents.map((event) => (
-<div
+          <div
             className="event-card clickable"
             key={event.id}
             onClick={() => handleEditClick(event)}
->
-<h2>{event.name}</h2>
-<p>{event.description}</p>
-</div>
+          >
+            {/* Red Circle Button */}
+            <div className="delete-button" onClick={(e) => {
+              e.stopPropagation(); // Prevent card click
+              handleDeleteClick(event.id);
+            }}>
+              <span className="minus-mark">-</span>
+            </div>
+            <h2>{event.name}</h2>
+            <p>{event.description}</p>
+          </div>
         ))}
-</div>
- 
+      </div>
+
       <div className="pagination">
         {[...Array(totalPages)].map((_, index) => (
-<button
+          <button
             key={index + 1}
             className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
             onClick={() => setCurrentPage(index + 1)}
->
+          >
             {index + 1}
-</button>
+          </button>
         ))}
-</div>
- 
+      </div>
+
       {isModalOpen && currentEvent && (
-<div className="modal">
-<div className="modal-content">
-<h2>Edit Event</h2>
- 
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Edit Event</h2>
+
             <label>Event Name</label>
-<input
+            <input
               type="text"
               value={currentEvent?.name || ''}
               onChange={(e) => setCurrentEvent({ ...currentEvent, name: e.target.value })}
             />
-<br />
- 
+            <br />
+
             <label>Description</label>
-<textarea
+            <textarea
               value={currentEvent?.description || ''}
               onChange={(e) => setCurrentEvent({ ...currentEvent, description: e.target.value })}
             />
-<br />
- 
+            <br />
+
             <label>Category</label>
-<select
+            <select
               value={currentEvent?.category || ''}
               onChange={(e) => setCurrentEvent({ ...currentEvent, category: e.target.value })}
->
-<option value="Music">Music</option>
-<option value="Sports">Sports</option>
-<option value="Art">Art</option>
-<option value="Tech">Tech</option>
-</select>
-<br />
- 
+            >
+              <option value="Music">Music</option>
+              <option value="Sports">Sports</option>
+              <option value="Art">Art</option>
+              <option value="Tech">Tech</option>
+            </select>
+            <br />
+
             <label>Number of Participants</label>
-<input
+            <input
               type="number"
               value={currentEvent?.noparticipants || ''}
               onChange={(e) => setCurrentEvent({ ...currentEvent, noparticipants: e.target.value })}
             />
-<br />
- 
+            <br />
+
             <label>Date & Time</label>
-<input
+            <input
               type="datetime-local"
               value={currentEvent?.eventtimestamp ? new Date(currentEvent.eventtimestamp).toISOString().slice(0, 16) : ''}
               onChange={(e) => setCurrentEvent({ ...currentEvent, eventtimestamp: e.target.value })}
             />
-<br />
- 
+            <br />
+
             <label>Venue</label>
-<input
+            <input
               type="text"
               value={currentEvent?.venue || ''}
               onChange={(e) => setCurrentEvent({ ...currentEvent, venue: e.target.value })}
             />
-<br />
- 
+            <br />
+
             <label>Image (PNG only)</label>
-<input
+            <input
               type="file"
               accept="image/png"
               onChange={handleImageChange}
             />
-<br />
- 
+            <br />
+
             {imagePreview && (
-<div className="image-preview">
-<img src={imagePreview} alt="Preview" width="200px" />
-</div>
+              <div className="image-preview">
+                <img src={imagePreview} alt="Preview" width="200px" />
+              </div>
             )}
- 
+
             <button onClick={handleSubmit}>Submit</button>
-<button onClick={() => setIsModalOpen(false)}>Cancel</button>
- 
+            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+
             {message && <p>{message}</p>}
-</div>
-</div>
+          </div>
+        </div>
       )}
- 
+
       <Footer />
-</div>
+    </div>
   );
 };
- 
+
 export default ManageEvent;
